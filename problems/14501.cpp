@@ -1,7 +1,7 @@
 #include <iostream>
 using namespace std;
 
-int t[16], p[16], dp[16];
+int t[16], p[16];
 int n;
 
 int solve(int d)
