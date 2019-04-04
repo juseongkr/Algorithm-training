@@ -1,0 +1,52 @@
+#include <iostream>
+using namespace std;
+
+int p[10001], price[10001];
+
+int find(int n)
+{
+	if (p[n] == n)
+		return n;
+	else
+		return p[n] = find(p[n]);
+}
+
+void uni(int a, int b)
+{
+	int x = find(a);
+	int y = find(b);
+	if (x != y) {
+		if (price[x] < price[y])
+			p[y] = x;
+		else
+			p[x] = y;
+	}
+}
+
+int main()
+{
+	int n, m, k, a, b, sum = 0;
+
+	scanf("%d %d %d", &n, &m, &k);
+	for (int i=1; i<=n; ++i)
+		p[i] = i;
+
+	for (int i=1; i<=n; ++i)
+		scanf("%d", &price[i]);
+
+	for (int i=1; i<=m; ++i) {
+		scanf("%d %d", &a, &b);
+		uni(a, b);
+	}
+
+	for (int i=1; i<=n; ++i)
+		if (p[i] == i)
+			sum += price[i];
+	
+	if (k >= sum)
+		printf("%d\n", sum);
+	else
+		printf("Oh no\n");
+
+	return 0;
+}
