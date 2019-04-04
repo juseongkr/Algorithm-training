@@ -9,7 +9,7 @@ int main()
 	
 	scanf("%d", &n);
 	for (int i=0; i<n*n; ++i) {
-		cin >> v;
+		scanf("%d", &v);
 		que.push(v * -1);
 		if (que.size() > n)
 			que.pop();
