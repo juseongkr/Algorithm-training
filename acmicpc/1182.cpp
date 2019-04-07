@@ -2,7 +2,7 @@
 using namespace std;
 
 int num[21];
-int n, s, sum, cnt = 0;
+int n, s, cnt = 0;
 
 void solve(int pos, int val)
 {
