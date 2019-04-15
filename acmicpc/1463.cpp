@@ -6,23 +6,17 @@ int main()
 	long long memo[1000001];
 	long long num;
 
-	cin >> num;
-
-	memo[0] = 0;
+	scanf("%lld", &num);
 	memo[1] = 0;
-	memo[2] = 1;
-	memo[3] = 1;
-	
-	for (int i=4; i<=num; ++i) {
+	for (int i=2; i<=num; ++i) {
+		memo[i] = memo[i-1] + 1;
 		if (i % 3 == 0)
-			memo[i] = min(memo[i/3] + 1, memo[i-1] + 1);
+			memo[i] = min(memo[i], memo[i/3]+1);
 		else if (i % 2 == 0)
-			memo[i] = min(memo[i/2] + 1, memo[i-1] + 1);
-		else
-			memo[i] = memo[i-1] + 1;
+			memo[i] = min(memo[i], memo[i/2]+1);
 	}
 
-	cout << memo[num] << '\n';
+	printf("%lld\n", memo[num]);
 
 	return 0;
 }
