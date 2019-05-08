@@ -7,8 +7,8 @@ int find(int n)
 {
 	if (p[n] == n)
 		return n;
-	else
-		return p[n] = find(p[n]);
+	p[n] = find(p[n]);
+	return p[n];
 }
 
 void uni(int a, int b)
@@ -25,14 +25,14 @@ void uni(int a, int b)
 
 int main()
 {
-	int n, m, k, a, b, sum = 0;
+	int n, m, k, t, a, b, sum = 0;
 
 	scanf("%d %d %d", &n, &m, &k);
-	for (int i=1; i<=n; ++i)
+	for (int i=1; i<=n; ++i) {
+		scanf("%d", &t);
+		price[i] = t;
 		p[i] = i;
-
-	for (int i=1; i<=n; ++i)
-		scanf("%d", &price[i]);
+	}
 
 	for (int i=1; i<=m; ++i) {
 		scanf("%d %d", &a, &b);

@@ -7,8 +7,8 @@ int find(int n)
 {
 	if (p[n] == n)
 		return n;
-	else
-		return p[n] = find(p[n]);
+	p[n] = find(p[n]);
+	return p[n];
 }
 
 void uni(int a, int b)
@@ -36,10 +36,9 @@ int main()
 	}
 
 	scanf("%d", &f);
-	f = find(f);
 	for (int i=1; i<m; ++i) {
 		scanf("%d", &v);
-		if (f != find(v)) {
+		if (find(f) != find(v)) {
 			printf("NO\n");
 			return 0;
 		}
