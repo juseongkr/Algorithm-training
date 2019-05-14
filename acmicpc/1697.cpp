@@ -2,44 +2,38 @@
 #include <queue>
 using namespace std;
 
-int visit[100001] = {0, };
+#define MAX 100001
+int visit[MAX];
 
-int bfs(int n, int k)
+int main()
 {
 	queue<pair<int, int>> que;
+	int n, k;
+
+	cin >> n >> k;
 
 	que.push({n, 0});
-
+	visit[n] = 1;
 	while (!que.empty()) {
 		int cur = que.front().first;
 		int dep = que.front().second;
 		que.pop();
 
-		if (cur == k)
-			return dep;
-
 		visit[cur] = 1;
+		if (cur == k) {
+			cout << dep << '\n';
+			return 0;
+		}
 
-		if (cur + 1 <= 100000 && visit[cur + 1] == 0)
+		if (cur + 1 <= MAX && !visit[cur+1])
 			que.push({cur+1, dep+1});
 
-		if (cur - 1 >= 0 && visit[cur - 1] == 0)
+		if (cur - 1 >= 0 && !visit[cur-1])
 			que.push({cur-1, dep+1});
 
-		if (cur * 2 <= 100000 && visit[cur * 2] == 0)
+		if (cur * 2 <= MAX && !visit[cur*2])
 			que.push({cur*2, dep+1});
-
 	}
-	return que.front().second;
-}
-
-int main()
-{
-	int n, k;
-
-	scanf("%d %d", &n, &k);
-
-	printf("%d\n", bfs(n, k));
 
 	return 0;
 }
