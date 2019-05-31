@@ -36,11 +36,8 @@ void __update(int node, int start, int end, int left, int right, ll val)
 		return;
 
 	if (left <= start && end <= right) {
-		if (start != end) {
-			lazy[node*2] += val;
-			lazy[node*2+1] += val;
-		}
-		tree[node] += (end-start+1) * val;
+		lazy[node] += val;
+		__update_lazy(node, start, end);
 		return;
 	}
 
