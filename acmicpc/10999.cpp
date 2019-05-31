@@ -18,21 +18,22 @@ ll __make(int node, int start, int end)
 
 void __update_lazy(int node, int start, int end)
 {
-	if (lazy[node] != 0) {
-		if (start != end) {
-			lazy[node*2] += lazy[node];
-			lazy[node*2+1] += lazy[node];
-		}
-		tree[node] += (end-start+1) * lazy[node];
-		lazy[node] = 0;
+	if (lazy[node] == 0)
+		return;
+
+	if (start != end) {
+		lazy[node*2] += lazy[node];
+		lazy[node*2+1] += lazy[node];
 	}
+	tree[node] += (end-start+1) * lazy[node];
+	lazy[node] = 0;
 }
 
 void __update(int node, int start, int end, int left, int right, ll val)
 {
 	__update_lazy(node, start, end);
 
-	if (left > end || right < start)
+	if (right < start || end < left)
 		return;
 
 	if (left <= start && end <= right) {
@@ -51,7 +52,7 @@ ll __sum(int node, int start, int end, int left, ll right)
 {
 	__update_lazy(node, start, end);
 
-	if (left > end || right < start)
+	if (right < start || end < left)
 		return 0;
 
 	if (left <= start && end <= right)
