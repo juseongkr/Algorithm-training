@@ -2,41 +2,37 @@
 #include <algorithm>
 #include <vector>
 using namespace std;
+#define MAX_LEN 9
 
-vector<int> ret, li;
-int n, m, t;
+int n, m;
+int num[MAX_LEN];
+vector<int> ans;
 
 void dfs()
 {
-	if (ret.size() == m) {
-		for (int i=0; i<ret.size(); ++i)
-			printf("%d ", ret[i]);
-		printf("\n");
+	if (ans.size() == m) {
+		for (int i=0; i<ans.size(); ++i)
+			cout << ans[i] << " ";
+		cout << '\n';
 		return;
 	}
 
-	for (int i=0; i<li.size(); ++i) {
-		if (ret.empty()) {
-			ret.push_back(li[i]);
+	for (int i=0; i<n; ++i) {
+		if (ans.size() == 0 || ans.back() <= num[i]) {
+			ans.push_back(num[i]);
 			dfs();
-			ret.pop_back();
-		} else if (ret.back() <= li[i]) {
-			ret.push_back(li[i]);
-			dfs();
-			ret.pop_back();
+			ans.pop_back();
 		}
 	}
 }
 
 int main()
 {
-	scanf("%d %d", &n, &m);
-	for (int i=0; i<n; ++i) {
-		scanf("%d", &t);
-		li.push_back(t);
-	}
+	cin >> n >> m;
+	for (int i=0; i<n; ++i)
+		cin >> num[i];
 
-	sort(li.begin(), li.end());
+	sort(num, num+n);
 
 	dfs();
 

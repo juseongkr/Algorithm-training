@@ -1,25 +1,25 @@
 #include <iostream>
 using namespace std;
-int dp[10001], wine[10001];
+#define MAX 10001
+
+int w[MAX], dp[MAX];
 
 int main()
 {
-	int num;
+	int n;
 
-	cin >> num;
+	cin >> n;
+	for (int i=1; i<=n; ++i)
+		cin >> w[i];
 
-	for (int i=1; i<=num; ++i)
-		cin >> wine[i];
-
-	dp[1] = wine[1];
-	dp[2] = dp[1] + wine[2];
-
-	for (int i=3; i<=num; ++i) {
-		dp[i] = max(dp[i-2] + wine[i], dp[i-3] + wine[i-1] + wine[i]);
-		dp[i] = max(dp[i-1], dp[i]);
+	dp[1] = w[1];
+	dp[2] = w[1] + w[2];
+	for (int i=3; i<=n; ++i) {
+		dp[i] = max(dp[i], dp[i-1]);
+		dp[i] = max(dp[i], dp[i-2] + w[i]);
+		dp[i] = max(dp[i], dp[i-3] + w[i-1] + w[i]);
 	}
-	
-	cout << dp[num] << '\n';
-	
+	cout << dp[n] << '\n';
+
 	return 0;
 }

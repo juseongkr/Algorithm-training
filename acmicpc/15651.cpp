@@ -3,31 +3,27 @@
 using namespace std;
 
 int n, m;
-int visit[10];
-vector<int> vec;
+vector<int> ans;
 
 void dfs()
 {
-	if (vec.size() == m) {
-		for (int i=0; i<vec.size(); ++i)
-			printf("%d ", vec[i]);
-		printf("\n");
-
+	if (ans.size() == m) {
+		for (int i=0; i<ans.size(); ++i)
+			cout << ans[i] << " ";
+		cout << '\n';
 		return;
 	}
 
 	for (int i=1; i<=n; ++i) {
-		visit[i] = 1;
-		vec.push_back(i);
+		ans.push_back(i);
 		dfs();
-		vec.pop_back();
-		visit[i] = 0;
+		ans.pop_back();
 	}
 }
 
 int main()
 {
-	scanf("%d %d", &n, &m);
+	cin >> n >> m;
 
 	dfs();
 

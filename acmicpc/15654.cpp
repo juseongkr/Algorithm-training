@@ -2,43 +2,41 @@
 #include <algorithm>
 #include <vector>
 using namespace std;
+#define MAX_LEN 9
+#define MAX_VAL 10001
 
 int n, m;
-int visit[10001];
-vector<int> li;
-vector<int> vec;
+int num[MAX_LEN], visit[MAX_VAL];
+vector<int> ans;
 
 void dfs()
 {
-	if (vec.size() == m) {
-		for (int i=0; i<vec.size(); ++i)
-			printf("%d ", vec[i]);
-		printf("\n");
-
+	if (ans.size() == m) {
+		for (int i=0; i<ans.size(); ++i)
+			cout << ans[i] << " ";
+		cout << '\n';
 		return;
 	}
 
-	for (int i=0; i<li.size(); ++i) {
-		if (visit[li[i]] == 0) {
-			visit[li[i]] = 1;
-			vec.push_back(li[i]);
-			dfs();
-			vec.pop_back();
-			visit[li[i]] = 0;
-		}
+	for (int i=0; i<n; ++i) {
+		if (visit[num[i]])
+			continue;
+
+		visit[num[i]] = 1;
+		ans.push_back(num[i]);
+		dfs();
+		ans.pop_back();
+		visit[num[i]] = 0;
 	}
 }
 
 int main()
 {
-	int t;
+	cin >> n >> m;
+	for (int i=0; i<n; ++i)
+		cin >> num[i];
 
-	scanf("%d %d", &n, &m);
-	for (int i=0; i<n; ++i) {
-		scanf("%d", &t);
-		li.push_back(t);
-	}
-	sort(li.begin(), li.end());
+	sort(num, num+n);
 
 	dfs();
 
