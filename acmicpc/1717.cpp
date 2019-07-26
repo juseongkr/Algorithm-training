@@ -1,39 +1,43 @@
 #include <iostream>
 using namespace std;
+#define MAX 1000001
 
-int p[1000001];
+int p[MAX];
 
 int find(int n)
 {
-	if (p[n] == n)
+	if (p[n] < 0)
 		return n;
-	else
-		return p[n] = find(p[n]);
+	return p[n] = find(p[n]);
 }
 
-void uni(int a, int b)
+void uni(int x, int y)
 {
-	int x = find(a);
-	int y = find(b);
-	if (x != y)
+	x = find(x);
+	y = find(y);
+	if (x != y) {
+		p[x] += p[y];
 		p[y] = x;
+	}
 }
 
 int main()
 {
-	int n, m, c, a, b;
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
 
-	scanf("%d %d", &n, &m);
-	for (int i=1; i<=n; ++i)
-		p[i] = i;
+	int n, m, a, b, c;
 
+	cin >> n >> m;
+	fill(p, p+MAX, -1);
 	for (int i=0; i<m; ++i) {
-		scanf("%d %d %d", &c, &a, &b);
+		cin >> c >> a >> b;
 		if (c) {
 			if (find(a) == find(b))
-				printf("YES\n");
+				cout << "YES\n";
 			else
-				printf("NO\n");
+				cout << "NO\n";
 		} else {
 			uni(a, b);
 		}
