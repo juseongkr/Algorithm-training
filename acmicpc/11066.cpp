@@ -1,45 +1,41 @@
 #include <iostream>
-#include <climits>
 #include <cstring>
 using namespace std;
+#define MAX 501
 
-int num[501], sum[501];
-int dp[501][501];
+int num[MAX];
+int dp[MAX][MAX];
 
-int solve(int left, int right)
+int solve(int l, int r)
 {
-	if (left >= right)
+	if (l == r)
 		return 0;
 
-	if (left + 1 == right)
-		return num[left] + num[right];
+	if (dp[l][r] != -1)
+		return dp[l][r];
 
-	if (dp[left][right] != 0)
-		return dp[left][right];
+	int sum = 0;
+	for (int i=l; i<=r; ++i)
+		sum += num[i];
 
-	dp[left][right] = INT_MAX;
-	for (int mid=left; mid<=right; ++mid) {
-		int next = solve(left, mid) + solve(mid+1, right) + sum[right] - sum[left-1];
-		dp[left][right] = min(dp[left][right], next);
-	}
-
-	return dp[left][right];
+	dp[l][r] = 1e9+7;
+	for (int i=l; i<=r; ++i)
+		dp[l][r] = min(dp[l][r], solve(l, i) + solve(i+1, r) + sum);
+	return dp[l][r];
 }
 
 int main()
 {
 	int t, n;
 
-	scanf("%d", &t);
+	cin >> t;
 	while (t--) {
-		memset(dp, 0, sizeof(dp));
-		scanf("%d", &n);
-		for (int i=1; i<=n; ++i) {
-			scanf("%d", &num[i]);
-			sum[i] = sum[i-1] + num[i];
-		}
+		memset(dp, -1, sizeof(dp));
+		cin >> n;
+		for (int i=1; i<=n; ++i)
+			cin >> num[i];
 
-		printf("%d\n", solve(1, n));
+		cout << solve(1, n) << '\n';
 	}
 
 	return 0;
