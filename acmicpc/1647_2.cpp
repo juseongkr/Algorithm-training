@@ -2,17 +2,17 @@
 #include <algorithm>
 #include <vector>
 using namespace std;
-#define MAX 10001
-
-int n, m, a, b, c;
-int root[MAX];
+#define MAX 100001
 
 class Edge {
 public:
 	int u, v, c;
 	Edge(int x, int y, int z) : u(x), v(y), c(z) { }
-	bool operator<(const Edge &a) const { return c < a.c; }
+	bool operator<(const Edge &x) const { return c < x.c; }
 };
+
+int n, m, a, b, c;
+int root[MAX];
 
 int find(int n)
 {
@@ -38,6 +38,7 @@ int main()
 	cout.tie(0);
 
 	vector<Edge> v;
+
 	cin >> n >> m;
 	for (int i=0; i<m; ++i) {
 		cin >> a >> b >> c;
@@ -47,15 +48,16 @@ int main()
 	fill(root, root+MAX, -1);
 	sort(v.begin(), v.end());
 
-	int total = 0, cnt = 0;
+	int cnt = 0, total = 0, mx = 0;
 	for (int i=0; i<v.size(); ++i) {
 		if (uni(v[i].u, v[i].v)) {
 			total += v[i].c;
+			mx = max(mx, v[i].c);
 			if (++cnt == n-1)
 				break;
 		}
 	}
-	cout << total << '\n';
+	cout << total - mx << '\n';
 
 	return 0;
 }
