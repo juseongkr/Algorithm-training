@@ -4,53 +4,65 @@ using namespace std;
 
 int tree[MAX*4], t[MAX];
 
-void update(int node, int left, int right, int idx, int val)
+void __update(int cur, int left, int right, int idx, long long val)
 {
-	if (idx < left || idx > right)
+	if (idx < left || right < idx)
 		return;
 
-	if (left == right) {
-		tree[node] += val;
-		return;
+	tree[cur] += val;
+	if (left != right) {
+		int mid = (left+right)/2;
+		__update(2*cur, left, mid, idx, val);
+		__update(2*cur+1, mid+1, right, idx, val);
 	}
-	int mid = (left+right)/2;
-	update(node*2, left, mid, idx, val);
-	update(node*2+1, mid+1, right, idx, val);
-	tree[node] = tree[node*2] + tree[node*2+1];
 }
 
-int query(int node, int left, int right, int k)
+int __query(int cur, int left, int right, int k)
 {
 	if (left == right) {
 		return left;
 	} else {
-		int mid = (left+right)/2;
-		if (k <= tree[node*2])
-			return query(node*2, left, mid, k);
+		int mid = (left + right)/2;
+		if (k <= tree[cur*2])
+			return __query(cur*2, left, mid, k);
 		else
-			return query(node*2+1, mid+1, right, k-tree[node*2]);
+			return __query(cur*2+1, mid+1, right, k - tree[cur*2]);
 	}
+}
+
+void update(int i, int d)
+{
+	__update(1, 0, MAX-1, i, d);
+}
+
+int query(int k)
+{
+	return __query(1, 0, MAX-1, k);
 }
 
 int main()
 {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+
 	int n, k;
-	long long ans = 0;
 
 	cin >> n >> k;
 	for (int i=0; i<n; ++i)
 		cin >> t[i];
 
 	for (int i=0; i<k; ++i)
-		update(1, 0, MAX-1, t[i], 1);
+		update(t[i], 1);
 
+	long long ans = 0;
 	long long mid = (k+1)/2;
 	for (int i=0; i<n-k; ++i) {
-		ans += query(1, 0, MAX-1, mid);
-		update(1, 0, MAX-1, t[i], -1);
-		update(1, 0, MAX-1, t[i+k], 1);
+		ans += query(mid);
+		update(t[i], -1);
+		update(t[i+k], 1);
 	}
-	ans += query(1, 0, MAX-1, mid);
+	ans += query(mid);
 	cout << ans << '\n';
 
 	return 0;
