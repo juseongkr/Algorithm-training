@@ -1,60 +1,65 @@
 #include <iostream>
+#include <climits>
 using namespace std;
+#define MAX 1000001
+const int INF = 1e9+7;
 
-#define MAX_VAL 10e9+1;
-long long num[100001], tree[4000002];
-int n, m;
+int n, m, t, a, b;
+long long tree[MAX*4];
 
-long long __make(int cur, int left, int right)
+void __update(int cur, int left, int right, int idx, long long diff)
 {
-	if (left == right) {
-		tree[cur] = num[right];
-		return tree[cur];
-	}
+	if (idx < left || right < idx)
+		return;
 
-	int mid = (left+right)/2;
-	long long left_tree = __make(2*cur, left, mid);
-	long long right_tree = __make(2*cur+1, mid+1, right);
-	tree[cur] = min(left_tree, right_tree);
-	return tree[cur];
+	tree[cur] = min(tree[cur], diff);
+	if (left != right) {
+		int mid = (left+right)/2;
+		__update(2*cur, left, mid, idx, diff);
+		__update(2*cur+1, mid+1, right, idx, diff);
+	}
 }
 
-long long __min(int cur, int left, int right, int start, int end)
+long long __query(int cur, int left, int right, int start, int end)
 {
 	if (end < left || right < start)
-		return MAX_VAL;
+		return INF;
 
 	if (start <= left && right <= end)
 		return tree[cur];
 
 	int mid = (left+right)/2;
-	long long left_min = __min(2*cur, left, mid, start, end);
-	long long right_min = __min(2*cur+1, mid+1, right, start, end);
-	return min(left_min, right_min);
+	return min(__query(2*cur, left, mid, start, end), __query(2*cur+1, mid+1, right, start, end));
 }
 
-void make()
+void update(int i, long long val)
 {
-	__make(1, 1, n);
+	__update(1, 1, n, i, val);
 }
 
-long long minimum(int a, int b)
+int query(int l, int r)
 {
-	return __min(1, 1, n, a, b);
+	return __query(1, 1, n, l, r);
 }
 
 int main()
 {
-	int a, b;
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
 
-	scanf("%d %d", &n, &m);
-	for (int i=1; i<=n; ++i)
-		scanf("%lld", &num[i]);
+	for (int i=0; i<MAX*4; ++i)
+		tree[i] = INF;
 
-	make();
+	cin >> n >> m;
+	for (int i=1; i<=n; ++i) {
+		cin >> t;
+		update(i, t);
+	}
+
 	for (int i=0; i<m; ++i) {
-		scanf("%d %d", &a, &b);
-		printf("%lld\n", minimum(a, b));
+		cin >> a >> b;
+		cout << query(a, b) << '\n';
 	}
 
 	return 0;

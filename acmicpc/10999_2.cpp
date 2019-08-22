@@ -71,7 +71,6 @@ public:
 	}
 };
 
-int n, m, k, a, b, c, v;
 
 int main()
 {
@@ -79,9 +78,11 @@ int main()
 	cin.tie(0);
 	cout.tie(0);
 
+	int n, m, k, a, b, c, v;
+
 	cin >> n >> m >> k;
-	Lazy_Segment seg(n);
-	for (int i=0; i<n; ++i) {
+	Lazy_Segment seg(n+1);
+	for (int i=1; i<=n; ++i) {
 		cin >> a;
 		seg.update(i, i, a);
 	}
@@ -90,10 +91,10 @@ int main()
 		cin >> c;
 		if (c == 1) {
 			cin >> a >> b >> v;
-			seg.update(a-1, b-1, v);
+			seg.update(a, b, v);
 		} else {
 			cin >> a >> b;
-			cout << seg.query(a-1, b-1) << '\n';
+			cout << seg.query(a, b) << '\n';
 		}
 	}
 

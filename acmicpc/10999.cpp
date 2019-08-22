@@ -3,18 +3,8 @@ using namespace std;
 #define MAX 1000001
 #define ll long long
 
-ll num[MAX], tree[MAX*4], lazy[MAX*4], t;
-int n, m, k, a, b, c;
-
-ll __make(int node, int start, int end)
-{
-	if (start == end)
-		return tree[node] = num[end];
-
-	int mid = (start + end)/2;
-	return tree[node] = __make(node*2, start, mid) + \
-			    __make(node*2+1, mid+1, end);
-}
+ll num[MAX], tree[MAX*4], lazy[MAX*4];
+int n, m, k, t, a, b, c;
 
 void __update_lazy(int node, int start, int end)
 {
@@ -63,9 +53,8 @@ ll __sum(int node, int start, int end, int left, ll right)
 		__sum(node*2+1, mid+1, end, left, right);
 }
 
-void make() { __make(1, 0, n-1); }
-void update(int l, int r, ll val) { __update(1, 0, n-1, l, r, val); }
-ll sum(int l, int r) { return __sum(1, 0, n-1, l, r); }
+void update(int l, int r, ll val) { __update(1, 1, n, l, r, val); }
+ll sum(int l, int r) { return __sum(1, 1, n, l, r); }
 
 int main()
 {
@@ -74,17 +63,18 @@ int main()
 	cout.tie(0);
 
 	cin >> n >> m >> k;
-	for (int i=0; i<n; ++i)
-		cin >> num[i];
-	
-	make();
+	for (int i=1; i<=n; ++i) {
+		cin >> t;
+		update(i, i, t);
+	}
 	for (int i=0; i<m+k; ++i) {
-		cin >> c >> a >> b;
+		cin >> c;
 		if (c == 1) {
-			cin >> t;
-			update(a-1, b-1, t);
+			cin >> a >> b >> t;
+			update(a, b, t);
 		} else {
-			cout << sum(a-1, b-1) << '\n';
+			cin >> a >> b;
+			cout << sum(a, b) << '\n';
 		}
 	}
 	return 0;
