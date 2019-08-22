@@ -32,12 +32,12 @@ int __kth(int cur, int left, int right, int k)
 
 void update(int i, int d)
 {
-	__update(1, 0, MAX-1, i, d);
+	__update(1, 0, MAX, i, d);
 }
 
 int kth(int k)
 {
-	return __kth(1, 0, MAX-1, k);
+	return __kth(1, 0, MAX, k);
 }
 
 int main()
