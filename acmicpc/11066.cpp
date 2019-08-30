@@ -2,9 +2,9 @@
 #include <cstring>
 using namespace std;
 #define MAX 501
+const int INF = 1e9+7;
 
-int num[MAX];
-int dp[MAX][MAX];
+int num[MAX], dp[MAX][MAX];
 
 int solve(int l, int r)
 {
@@ -18,7 +18,7 @@ int solve(int l, int r)
 	for (int i=l; i<=r; ++i)
 		sum += num[i];
 
-	dp[l][r] = 1e9+7;
+	dp[l][r] = INF;
 	for (int i=l; i<=r; ++i)
 		dp[l][r] = min(dp[l][r], solve(l, i) + solve(i+1, r) + sum);
 	return dp[l][r];
@@ -26,12 +26,16 @@ int solve(int l, int r)
 
 int main()
 {
+	ios_base::sync_with_stdio(0);
+	cin.tie(0);
+	cout.tie(0);
+
 	int t, n;
 
 	cin >> t;
 	while (t--) {
-		memset(dp, -1, sizeof(dp));
 		cin >> n;
+		memset(dp, -1, sizeof(dp));
 		for (int i=1; i<=n; ++i)
 			cin >> num[i];
 
