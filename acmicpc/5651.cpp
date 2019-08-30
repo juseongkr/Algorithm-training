@@ -74,7 +74,7 @@ int main()
 			queue<int> que;
 			que.push(src);
 
-			while (!que.empty()) {
+			while (!que.empty() && prev[sink] == -1) {
 				int cur = que.front();
 				que.pop();
 
