@@ -2,7 +2,7 @@
 #include <vector>
 #include <tuple>
 using namespace std;
-#define MAX 1005
+#define MAX 2002
 
 tuple<int, int, int> shark[MAX];
 vector<int> graph[MAX];
@@ -35,26 +35,27 @@ int main()
 		 for (int j=i+1; j<n; ++j) {
 			if (get<0>(shark[i]) >= get<0>(shark[j]) &&
 			    get<1>(shark[i]) >= get<1>(shark[j]) &&
-			    get<2>(shark[i]) >= get<2>(shark[j]))
+			    get<2>(shark[i]) >= get<2>(shark[j])) {
+				graph[i+1000].push_back(j);
 				graph[i].push_back(j);
+			}
 
 			else if (get<0>(shark[i]) <= get<0>(shark[j]) &&
 			    get<1>(shark[i]) <= get<1>(shark[j]) &&
-			    get<2>(shark[i]) <= get<2>(shark[j]))
+			    get<2>(shark[i]) <= get<2>(shark[j])) {
+				graph[j+1000].push_back(i);
 				graph[j].push_back(i);
+			}
 		 }
 	 }
 
 	 fill(A, A+MAX, -1);
 	 fill(B, B+MAX, -1);
-	 for (int i=0; i<n; ++i) {
-		 for (int j=0; j<2; ++j) {
-			 fill(visit, visit+MAX, 0);
-			 if (dfs(i))
-				 cnt++;
-		 }
+	 for (int i=0; i<MAX; ++i) {
+		 fill(visit, visit+MAX, 0);
+		 if (dfs(i))
+			 cnt++;
 	 }
-
 	 cout << n - cnt << '\n';
 
 	 return 0;
