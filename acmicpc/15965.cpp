@@ -15,7 +15,6 @@ int main()
 		for (int j=i*i; j<MAX; j+=i)
 			check[j] = true;
 	}
-
 	for (int i=2; i<MAX; ++i)
 		if (!check[i])
 			prime.push_back(i);
