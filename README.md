@@ -5,7 +5,7 @@
 
 
 ### [Codeforces](https://codeforces.com)
-<img src="https://user-images.githubusercontent.com/10775915/57319251-1e7a9200-7137-11e9-996a-ebffb99d8e52.png" width="40%"></img>
+<img src="https://user-images.githubusercontent.com/10775915/73823608-fb9f1a80-483b-11ea-9720-2449acc9324f.png" width="40%"></img>
 
 
 ### [LeetCode](https://leetcode.com)
