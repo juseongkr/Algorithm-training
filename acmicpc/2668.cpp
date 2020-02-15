@@ -8,7 +8,7 @@ int num[MAX];
 bool visit[MAX];
 vector<int> vec;
 
-void  dfs(int cur, int start)
+void dfs(int cur, int start)
 {
 	if (visit[cur] && cur == start)
 		vec.push_back(cur);
