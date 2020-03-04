@@ -1,18 +1,11 @@
 #include <iostream>
 #include <vector>
 using namespace std;
-#define n 8
 typedef vector<vector<long long>> vvl;
 const int MOD = 1e9+7;
 
-vvl mat = {{0, 1, 1, 0, 0, 0, 0, 0},
-	{1, 0, 1, 1, 0, 0, 0, 0},
-	{1, 1, 0, 1, 1, 0, 0, 0},
-	{0, 1, 1, 0, 1, 1, 0, 0},
-	{0, 0, 1, 1, 0, 1, 0, 1},
-	{0, 0, 0, 1, 1, 0, 1, 0},
-	{0, 0, 0, 0, 0, 1, 0, 1},
-	{0, 0, 0, 0, 1, 0, 1, 0}};
+int n, m, x, y, d;
+vvl mat, ans;
 
 vvl operator*(const vvl &a, const vvl &b)
 {
@@ -30,15 +23,27 @@ vvl operator*(const vvl &a, const vvl &b)
 
 int main()
 {
-	vvl ans(n, vector<long long>(n));
-	int d;
-
-	cin >> d;
+	cin >> n >> m;
+	mat.resize(n);
+	ans.resize(n);
+	for (int i=0; i<n; ++i) {
+		mat[i].resize(n);
+		ans[i].resize(n);
+	}
+	
 	for (int i=0; i<n; ++i)
 		ans[i][i] = 1;
 
+	for (int i=0; i<m; ++i) {
+		cin >> x >> y;
+		x--;
+		y--;
+		mat[x][y] = mat[y][x] = 1;
+	}
+
+	cin >> d;
 	while (d) {
-		if (d % 2 == 1)
+		if (d % 2)
 			ans = ans * mat;
 		mat = mat * mat;
 		d /= 2;
