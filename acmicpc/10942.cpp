@@ -4,40 +4,39 @@ using namespace std;
 #define MAX 2001
 
 int n, m, x, y;
-int num[MAX], dp[MAX][MAX];
+int num[MAX];
+int dp[MAX][MAX];
 
-bool solve(int a, int b)
+int solve(int l, int r)
 {
-	if (a == b)
+	if (l == r)
 		return 1;
 
-	if (dp[a][b] != 0)
-		return dp[a][b];
+	if (dp[l][r])
+		return dp[l][r];
 
-	if (a + 1 == b) {
-		if (num[a] == num[b])
-			dp[a][b] = 1;
-		else
-			dp[a][b] = 0;
+	if (r - l == 1) {
+		return num[l] == num[r];
 	} else {
-		if (num[a] == num[b])
-			dp[a][b] = solve(a+1, b-1);
+		if (num[l] == num[r])
+			dp[l][r] = solve(l+1, r-1);
 	}
-	return dp[a][b];
+
+	return dp[l][r];
 }
 
 int main()
 {
 	ios_base::sync_with_stdio(0);
-	cin.tie(0);
 	cout.tie(0);
+	cin.tie(0);
 
 	cin >> n;
 	for (int i=1; i<=n; ++i)
 		cin >> num[i];
-	cin >> m;
 
-	for (int i=0; i<m; ++i) {
+	cin >> m;
+	while (m--) {
 		cin >> x >> y;
 		cout << solve(x, y) << '\n';
 	}
