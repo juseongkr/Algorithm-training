@@ -1,42 +1,45 @@
 #include <iostream>
-#include <string.h>
-#define fill(a, x)	memset(a, x, sizeof(a))
+#include <cstring>
 using namespace std;
+#define MAX 501
+const int dx[4] = {0, 1, 0, -1};
+const int dy[4] = {1, 0, -1, 0};
 
-int path[501][501];
-int dp[501][501];
-int a[4] = {-1, 0, 1, 0};
-int b[4] = {0, -1, 0, 1};
-int w, h;
+int n, m;
+int map[MAX][MAX];
+int dp[MAX][MAX];
 
-int dfs(int x, int y)
+int solve(int x, int y)
 {
-	if (x < 0 || y < 0 || x >= w || y >= h)
-		return 0;
-	if (x == 0 && y == 0)
+	if (x == n-1 && y == m-1)
 		return 1;
-	if (dp[x][y] != -1)
+
+	if (~dp[x][y])
 		return dp[x][y];
 
 	dp[x][y] = 0;
 	for (int i=0; i<4; ++i) {
-		if (path[x][y] < path[x + a[i]][y + b[i]])
-			dp[x][y] += dfs(x + a[i], y + b[i]);
-	}
+		int nx = x + dx[i];
+		int ny = y + dy[i];
 
+		if (nx < 0 || nx >= n || ny < 0 || ny >= m)
+			continue;
+
+		if (map[x][y] > map[nx][ny])
+			dp[x][y] += solve(nx, ny);
+	}
 	return dp[x][y];
 }
 
 int main()
 {
-	cin >> w >> h;
-	fill(dp, -1);
-	
-	for (int i=0; i<w; ++i)
-		for (int j=0; j<h; ++j)
-			cin >> path[i][j];
+	cin >> n >> m;
+	for (int i=0; i<n; ++i)
+		for (int j=0; j<m; ++j)
+			cin >> map[i][j];
 
-	cout << dfs(w-1, h-1) << '\n';
+	memset(dp, -1, sizeof(dp));
+	cout << solve(0, 0) << '\n';
 
 	return 0;
 }
