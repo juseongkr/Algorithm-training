@@ -6,9 +6,9 @@ public:
 		Node *next;
 		Node(int v) : val(v), next(nullptr) { }
 	};
-
 	Node *head;
 	int len;
+
 	/** Initialize your data structure here. */
 	MyLinkedList() : len(0), head(nullptr) { }
 	
@@ -87,4 +87,4 @@ public:
 			delete temp;
 		}
 	}
-};/
+};
