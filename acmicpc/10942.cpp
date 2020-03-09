@@ -15,12 +15,11 @@ int solve(int l, int r)
 	if (dp[l][r])
 		return dp[l][r];
 
-	if (r - l == 1) {
+	if (r - l == 1)
 		return num[l] == num[r];
-	} else {
-		if (num[l] == num[r])
-			dp[l][r] = solve(l+1, r-1);
-	}
+
+	if (num[l] == num[r])
+		dp[l][r] = solve(l+1, r-1);
 
 	return dp[l][r];
 }
