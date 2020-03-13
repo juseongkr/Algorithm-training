@@ -1,28 +1,26 @@
 #include <iostream>
 using namespace std;
+#define MAX 10001
+
+int n, m, l, r, sum, ans;
+int num[MAX];
 
 int main()
 {
-	int num[10001];
-	int n, m, ret = 0, cnt = 0;
-	int left = 0, right = 0;
-
-	scanf("%d %d", &n, &m);
+	cin >> n >> m;
 	for (int i=0; i<n; ++i)
-		scanf("%d", &num[i]);
+		cin >> num[i];
 
-	while (1) {
-		if (ret >= m)
-			ret -= num[left++];
-		else if (right == n)
-			break;
-		else
-			ret += num[right++];
-		if (ret == m)
-			cnt++;
+	while (l <= r && r <= n) {
+		if (sum >= m) {
+			if (sum == m)
+				ans++;
+			sum -= num[l++];
+		}  else {
+			sum += num[r++];
+		}
 	}
-
-	printf("%d\n", cnt);
+	cout << ans << '\n';
 
 	return 0;
 }

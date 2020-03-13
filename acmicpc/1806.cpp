@@ -1,34 +1,30 @@
 #include <iostream>
-#include <climits>
 using namespace std;
+#define MAX 100001
 
-#define MAX_VAL 100001
+int n, s, l, r, sum, cnt;
+int num[MAX];
 
 int main()
 {
-	int num[MAX_VAL];
-	int n, s, left = 0, right = 0, cnt = 0, sum = 0, ret = INT_MAX;
-
-	scanf("%d %d", &n, &s);
+	cin >> n >> s;
 	for (int i=0; i<n; ++i)
-		scanf("%d", &num[i]);
+		cin >> num[i];
 
-	while (1) {
+	int ans = MAX;
+	while (l <= r && r <= n) {
 		if (sum >= s) {
-			ret = min(ret, right - left);
-			sum -= num[left++];
+			ans = min(ans, r-l);
+			sum -= num[l++];
 			cnt++;
-		} else if (right == n) {
-			break;
 		} else {
-			sum += num[right++];
+			sum += num[r++];
 		}
 	}
-
 	if (cnt)
-		printf("%d\n", ret);
+		cout << ans << '\n';
 	else
-		printf("0\n");
+		cout << "0\n";
 
 	return 0;
 }
