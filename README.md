@@ -26,3 +26,6 @@
 
 ### [SCPC](https://research.samsung.com/scpc)
 <img src="https://user-images.githubusercontent.com/10775915/61900764-3ead3680-af59-11e9-88bc-741474873b3a.png" width="30%"></img>
+
+### [code jam](https://codingcompetitions.withgoogle.com/codejam)
+<img src="https://user-images.githubusercontent.com/10775915/78578529-a2b72700-786a-11ea-8ca1-71ec039aefa9.png" width="30%"></img>
