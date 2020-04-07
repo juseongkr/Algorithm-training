@@ -1,12 +1,12 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <climits>
 using namespace std;
 #define MAX 304
 const int src = 301, sink = 302;
+const int INF = 1e9+7;
 
-int num[MAX];
+int n, m, u, v;
 
 class Dinic {
 public:
@@ -33,7 +33,7 @@ public:
 	{
 		graph[u].push_back(v);
 		graph[v].push_back(u);
-		c[u][v] = capa;
+		c[u][v] = c[v][u] = capa;
 	}
 
 	bool bfs(int src, int sink)
@@ -84,7 +84,7 @@ public:
 			for (int i=0; i<work.size(); ++i)
 				work[i] = 0;
 			while (1) {
-				int flow = dfs(src, sink, INT_MAX);
+				int flow = dfs(src, sink, INF);
 				if (flow == 0)
 					break;
 				total += flow;
@@ -100,8 +100,6 @@ int main()
 	cout.tie(0);
 	cin.tie(0);
 
-	int n, m, u, v;
-
 	while (1) {
 		cin >> n >> m;
 		if (n == 0 && m == 0)
@@ -110,7 +108,6 @@ int main()
 		Dinic d = Dinic(MAX);
 		for (int i=1; i<=n; ++i) {
 			cin >> u;
-			num[i] = u;
 			if (u == 0)
 				d.add_edge(src, i, 1);
 			else
@@ -119,14 +116,7 @@ int main()
 
 		for (int i=1; i<=m; ++i) {
 			cin >> u >> v;
-			if (num[u] && !num[v]) {
-				d.add_edge(v, u, 1);
-			} else if (!num[u] && num[v]) {
-				d.add_edge(u, v, 1);
-			} else {
-				d.add_edge(u, v, 1);
-				d.add_edge(v, u, 1);
-			}
+			d.add_edge(u, v, 1);
 		}
 		cout << d.flow(src, sink) << '\n';
 	}
