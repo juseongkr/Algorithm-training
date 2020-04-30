@@ -9,7 +9,7 @@ using namespace std;
 int main()
 {
 	vector<pair<int, int>> map[MAX_VAL];
-	int dist[MAX_VAL];
+	long long dist[MAX_VAL];
 	int n, m, a, b, w;
 	bool cycle = false;
 
@@ -42,7 +42,7 @@ int main()
 	} else {
 		for (int i=1; i<n; ++i) {
 			if (dist[i] != INT_MAX)
-				printf("%d\n", dist[i]);
+				printf("%lld\n", dist[i]);
 			else
 				printf("-1\n");
 		}
