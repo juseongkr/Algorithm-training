@@ -17,7 +17,8 @@ void bfs()
 	step[start.first][start.second] = 1;
 
 	while (!que.empty()) {
-		for (int i=0; i<water.size(); ++i) {
+		int sz = water.size();
+		for (int i=0; i<sz; ++i) {
 			int x = water.front().first;
 			int y = water.front().second;
 			water.pop();
@@ -36,7 +37,8 @@ void bfs()
 			}
 		}
 
-		for (int i=0; i<que.size(); ++i) {
+		sz = que.size();
+		for (int i=0; i<sz; ++i) {
 			int x = que.front().first;
 			int y = que.front().second;
 			que.pop();
