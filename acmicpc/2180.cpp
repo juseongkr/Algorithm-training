@@ -20,6 +20,10 @@ int main()
 	}
 
 	sort(vec.begin(), vec.end(), [](auto x, auto y) {
+		if (!y.first && !y.second)
+			return false;
+		if (!x.first && !x.second)
+			return true;
 		return x.first * y.second > y.first * x.second;
 	});
 
