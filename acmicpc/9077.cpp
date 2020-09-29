@@ -1,11 +1,11 @@
 #include <iostream>
-#include <vector>
+#include <cstring>
 using namespace std;
-#define MAX 10050
+#define MAX 10001
+const int INF = 1e4;
 
-int t, n, x, y;
-bool map[MAX][MAX];
-vector<pair<int, int>> vec;
+int t, n, u, v;
+int map[MAX][MAX];
 
 int main()
 {
@@ -16,53 +16,26 @@ int main()
 	cin >> t;
 	while (t--) {
 		cin >> n;
+		int ans = 0;
 		for (int i=0; i<n; ++i) {
-			cin >> x >> y;
-			x += 10;
-			y += 10;
-			map[x][y] = 1;
-			vec.push_back({x, y});
+			cin >> u >> v;
+
+			for (int x=-5; x<=5; ++x) {
+				for (int y=-5; y<=5; ++y) {
+					int nx = x + u;
+					int ny = y + v;
+
+					if (nx < 0 || nx >= INF || ny < 0 || ny >= INF)
+						continue;
+
+					ans = max(ans, ++map[nx][ny]);
+				}
+			}
 		}
 
-		int ans = 0, cnt = 0;
-		for (int i=0; i<n; ++i) {
-			auto [X, Y] = vec[i];
-			cnt = 0;
-			for (int a=X; a<=X+10; ++a)
-				for (int b=Y; b<=Y+10; ++b)
-					if (map[a][b])
-						cnt++;
-			ans = max(ans, cnt);
-			cnt = 0;
-
-			for (int a=X; a<=X+10; ++a)
-				for (int b=Y-10; b<=Y; ++b)
-					if (map[a][b])
-						cnt++;
-			ans = max(ans, cnt);
-			cnt = 0;
-
-			for (int a=X-10; a<=X; ++a)
-				for (int b=Y; b<=Y+10; ++b)
-					if (map[a][b])
-						cnt++;
-			ans = max(ans, cnt);
-			cnt = 0;
-
-			for (int a=X-10; a<=X; ++a)
-				for (int b=Y-10; b<=Y; ++b)
-					if (map[a][b])
-						cnt++;
-			ans = max(ans, cnt);
-			cnt = 0;
-		}
 		cout << ans << '\n';
 
-		vec.clear();
-		for (int i=0; i<n; ++i) {
-			auto [X, Y] = vec[i];
-			map[X][Y] = 0;
-		}
+		memset(map, 0, sizeof(map));
 	}
 
 	return 0;
