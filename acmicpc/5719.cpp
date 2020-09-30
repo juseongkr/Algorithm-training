@@ -1,24 +1,25 @@
 #include <iostream>
 #include <functional>
-#include <climits>
 #include <cstring>
 #include <vector>
 #include <queue>
 using namespace std;
 #define MAX 501
 typedef pair<int, int> pii;
+const int INF = 1e9+7;
 
 vector<pair<int, int>> graph[MAX], rev[MAX];
-int removed[MAX][MAX], dist[MAX];
 int n, m, a, b, c, start, dest;
+bool visit[MAX][MAX];
+int dist[MAX];
 
 void dijkstra()
 {
+	fill(dist, dist+n, INF);
 	priority_queue<pii, vector<pii>, greater<pii>> que;
-
-	fill(dist, dist+MAX, INT_MAX);
 	que.push({0, start});
 	dist[start] = 0;
+
 	while (!que.empty()) {
 		int cost = que.top().first;
 		int cur = que.top().second;
@@ -28,15 +29,19 @@ void dijkstra()
 			continue;
 
 		for (int i=0; i<graph[cur].size(); ++i) {
-			int next_cur = graph[cur][i].first;
-			int next_cost = graph[cur][i].second;
+			int next = graph[cur][i].first;
+			int next_cost = graph[cur][i].second + cost;
 
-			if (removed[cur][next_cur])
+			if (graph[cur][i].second == -1)
 				continue;
 
-			if (next_cost + cost < dist[next_cur]) {
-				que.push({next_cost + cost, next_cur});
-				dist[next_cur] = next_cost + cost;
+			if (dist[next] > next_cost) {
+				dist[next] = next_cost;
+				que.push({next_cost, next});
+				rev[next].clear();
+				rev[next].push_back({cur, next_cost});
+			} else if (dist[next] == next_cost) {
+				rev[next].push_back({cur, next_cost});
 			}
 		}
 	}
@@ -45,49 +50,55 @@ void dijkstra()
 void bfs()
 {
 	queue<int> que;
-
 	que.push(dest);
+
 	while (!que.empty()) {
 		int cur = que.front();
 		que.pop();
 
-		if (cur == start)
-			continue;
-
 		for (int i=0; i<rev[cur].size(); ++i) {
-			int prev = rev[cur][i].first;
-			int cost = rev[cur][i].second;
+			int next = rev[cur][i].first;
+			if (visit[cur][next])
+				continue;
+			visit[cur][next] = 1;
 
-			if (dist[prev] + cost == dist[cur]) {
-				removed[prev][cur] = 1;
-				que.push(prev);
-			}
+			for (auto &g : graph[next])
+				if (g.first == cur)
+					g.second = -1;
+
+			que.push(next);
 		}
 	}
 }
 
 int main()
 {
-	while (cin >> n >> m && n != 0 && m != 0) {
+	ios_base::sync_with_stdio(0);
+	cout.tie(0);
+	cin.tie(0);
+
+	while (1) {
+		cin >> n >> m;
+		if (n == 0)
+			break;
 		cin >> start >> dest;
 
-		memset(removed, 0, sizeof(removed));
 		for (int i=0; i<m; ++i) {
 			cin >> a >> b >> c;
 			graph[a].push_back({b, c});
-			rev[b].push_back({a, c});
 		}
 
 		dijkstra();
 		bfs();
 		dijkstra();
 
-		if (dist[dest] == INT_MAX)
+		if (dist[dest] == INF)
 			cout << "-1\n";
 		else
 			cout << dist[dest] << '\n';
 
-		for (int i=0; i<MAX; ++i) {
+		memset(visit, 0, sizeof(visit));
+		for (int i=0; i<n; ++i) {
 			graph[i].clear();
 			rev[i].clear();
 		}
