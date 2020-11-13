@@ -12,15 +12,15 @@ public:
 	}
 
 	void solve(int cur, int k) {
-		if (k == 0) {
+		if (temp.size() == k) {
 			ans.push_back(temp);
 			return;
 		}
 
-		for (int i=0; i<vec.size(); ++i) {
-			if (temp.size() == 0 || (temp.size() && temp.back() < vec[i])) {
+		for (int i=cur; i<vec.size(); ++i) {
+			if (temp.size() == 0 || temp.back() < vec[i]) {
 				temp.push_back(vec[i]);
-				solve(i, k-1);
+				solve(i, k);
 				temp.pop_back();
 			}
 		}
