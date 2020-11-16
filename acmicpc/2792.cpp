@@ -1,9 +1,9 @@
 #include <iostream>
-#include <climits>
 using namespace std;
 #define MAX 300001
+const int INF = 1e9+7;
 
-int n, m, max_val;
+int n, m;
 int num[MAX];
 
 bool check(int k)
@@ -15,31 +15,29 @@ bool check(int k)
 			ret++;
 	}
 
-	if (ret <= n)
-		return true;
-	return false;
+	return ret <= n;
 }
 
 int main()
 {
+	ios_base::sync_with_stdio(0);
+	cout.tie(0);
+	cin.tie(0);
+
 	cin >> n >> m;
-	for (int i=0; i<m; ++i) {
+	for (int i=0; i<m; ++i)
 		cin >> num[i];
-		max_val = max(max_val, num[i]);
+
+	int l = 0, r = INF;
+	while (l+1 < r) {
+		int mid = (l + r) / 2;
+		if (check(mid))
+			r = mid;
+		else
+			l = mid;
 	}
 
-	int ans = INT_MAX;
-	int l = 0, r = max_val;
-	while (l <= r) {
-		int mid = (l + r) / 2;
-		if (check(mid)) {
-			ans = min(ans, mid);
-			r = mid - 1;
-		} else {
-			l = mid + 1;
-		}
-	}
-	cout << ans << '\n';
+	cout << r << '\n';
 
 	return 0;
 }
