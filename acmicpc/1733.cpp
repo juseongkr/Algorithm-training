@@ -1,9 +1,9 @@
 #include <iostream>
 #include <vector>
 #include <queue>
-#include <climits>
 using namespace std;
 #define MAX 1000001
+const int INF = 1e9+7;
 
 int n, x, y;
 bool visit[MAX];
@@ -13,12 +13,12 @@ vector<int> graph[MAX];
 void bfs()
 {
 	queue<int> que;
-	for (int i=0; i<n+1; ++i) {
+	for (int i=0; i<n; ++i) {
 		if (!visit[i]) {
 			dist[i] = 0;
 			que.push(i);
 		} else {
-			dist[i] = INT_MAX;
+			dist[i] = INF;
 		}
 	}
 
@@ -27,7 +27,7 @@ void bfs()
 		que.pop();
 		for (int i=0; i<graph[a].size(); ++i) {
 			int b = graph[a][i];
-			if (B[b] != -1 && dist[B[b]] == INT_MAX) {
+			if (B[b] != -1 && dist[B[b]] == INF) {
 				dist[B[b]] = dist[a] + 1;
 				que.push(B[b]);
 			}
@@ -52,12 +52,12 @@ bool dfs(int a)
 int match()
 {
 	int ret = 0;
-	fill(A, A+n+1, -1);
-	fill(B, B+n+1, -1);
+	fill(A, A+MAX, -1);
+	fill(B, B+MAX, -1);
 	while (1) {
 		bfs();
 		int flow = 0;
-		for (int i=0; i<n+1; ++i)
+		for (int i=0; i<n; ++i)
 			if (!visit[i] && dfs(i))
 				flow++;
 		if (flow == 0)
