@@ -37,19 +37,25 @@ int main()
 		}
 
 		stack<int> st;
+		bool flag = false;
 		for (int i=0; i<s.length(); ++i) {
 			if (s[i] == '[') {
 				st.push(i);
 			} else if (s[i] == ']') {
-				int j = st.top();
-				st.pop();
-				mp[i] = j;
-				mp[j] = i;
+				if (st.empty()) {
+					flag = true;
+					break;
+				} else {
+					int j = st.top();
+					st.pop();
+					mp[i] = j;
+					mp[j] = i;
+				}
 			}
 		}
 
 		cout << "PROGRAM #" << t << ":\n";
-		if (st.size()) {
+		if (st.size() || flag) {
 			ans = "COMPILE ERROR";
 		} else {
 			for (int i=0; i<s.length(); ) {
