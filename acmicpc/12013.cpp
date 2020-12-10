@@ -15,15 +15,22 @@ int solve(int l, int r)
 		return dp[l][r];
 
 	dp[l][r] = 0;
-	for (int i=l; i<r; ++i)
-		if (solve(l, i) == solve(i+1, r))
-			dp[l][r] = max(dp[l][r], solve(l, i) + 1);
+	for (int i=l; i<r; ++i) {
+		int left = solve(l, i);
+		int right = solve(i+1, r);
+		if (left != 0 && left == right)
+			dp[l][r] = max(dp[l][r], left + 1);
+	}
 
 	return dp[l][r];
 }
 
 int main()
 {
+	ios_base::sync_with_stdio(0);
+	cout.tie(0);
+	cin.tie(0);
+
 	cin >> n;
 	for (int i=0; i<n; ++i)
 		cin >> num[i];
