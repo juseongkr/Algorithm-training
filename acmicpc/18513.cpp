@@ -3,7 +3,6 @@
 #include <set>
 using namespace std;
 #define MAX 100001
-const int INF = 1e8;
 const int dx[2] = {-1, 1};
 
 int n, k, p;
@@ -31,7 +30,7 @@ int main()
 		for (int i=0; i<2; ++i) {
 			int next = cur + dx[i];
 
-			if (next <= -INF || INF <= next || visit.count(next))
+			if (visit.count(next))
 				continue;
 
 			ans += abs(root - next);
