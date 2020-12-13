@@ -2,7 +2,7 @@
 using namespace std;
 #define MAX 20001
 #define ll long long
-const ll INF = 2147483647;
+const ll INF = 1e18+7;
 
 int n;
 ll a[MAX], b[MAX], c[MAX];
