@@ -5,6 +5,10 @@ using namespace std;
 
 int main()
 {
+	ios_base::sync_with_stdio(0);
+	cout.tie(0);
+	cin.tie(0);
+
 	pair<int, int> num[MAX];
 	long long total = 0, sum = 0;
 	int n, a, b;
@@ -20,7 +24,7 @@ int main()
 
 	for (int i=0; i<n; ++i) {
 		sum += num[i].second;
-		if (sum >= total/2) {
+		if (sum * 2 >= total) {
 			cout << num[i].first;
 			break;
 		}
