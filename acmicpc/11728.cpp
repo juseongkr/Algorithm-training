@@ -1,21 +1,39 @@
 #include <iostream>
-#include <algorithm>
 using namespace std;
+#define MAX 1000001
+
+int n, m;
+int a[MAX], b[MAX], c[MAX];
 
 int main()
 {
-	int arr[2000001];
-	int n, m;
+	ios_base::sync_with_stdio(0);
+	cout.tie(0);
+	cin.tie(0);
 
-	scanf("%d %d", &n, &m);
+	cin >> n >> m;
+	for (int i=0; i<n; ++i)
+		cin >> a[i];
+
+	for (int i=0; i<m; ++i)
+		cin >> b[i];
+
+	int i = 0, j = 0, k = 0;
+	while (i < n && j < m) {
+		if (a[i] <= b[j])
+			c[k++] = a[i++];
+		else
+			c[k++] = b[j++];
+	}
+
+	while (i < n)
+		c[k++] = a[i++];
+
+	while (j < m)
+		c[k++] = b[j++];
+
 	for (int i=0; i<n+m; ++i)
-		scanf("%d", &arr[i]);
-
-	sort(arr, arr+n+m);
-
-	for (int i=0; i<n+m; ++i)
-		printf("%d ", arr[i]);
-	printf("\n");
+		cout << c[i] << " ";
 	
 	return 0;
 }
