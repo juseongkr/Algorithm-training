@@ -1,97 +1,83 @@
 #include <iostream>
-#include <vector>
+#include <cstring>
 #include <queue>
 using namespace std;
+#define MAX 51
+const int INF = 1e9+7;
+typedef pair<int, int> pi;
+const int dx[4] = {1, 0, -1, 0};
+const int dy[4] = {0, 1, 0, -1};
 
-queue<pair<int, int>> que, water;
-pair<int, int> start, dest;
-int a[4] = {0, 1, 0, -1};
-int b[4] = {1, 0, -1, 0};
-int step[51][51];
-string map[51];
-int n, m, ans;
-
-void bfs()
-{
-	que.push(start);
-	step[start.first][start.second] = 1;
-
-	while (!que.empty()) {
-		int sz = water.size();
-		for (int i=0; i<sz; ++i) {
-			int x = water.front().first;
-			int y = water.front().second;
-			water.pop();
-
-			for (int j=0; j<4; ++j) {
-				int next_x = x + a[j];
-				int next_y = y + b[j];
-
-				if (next_x < 0 || next_y < 0 || next_x >= n || next_y >= m)
-					continue;
-
-				if (map[next_x][next_y] == '.') {
-					map[next_x][next_y] = '*';
-					water.push({next_x, next_y});
-				}
-			}
-		}
-
-		sz = que.size();
-		for (int i=0; i<sz; ++i) {
-			int x = que.front().first;
-			int y = que.front().second;
-			que.pop();
-
-			if (x == dest.first && y == dest.second)
-				return;
-
-			for (int j=0; j<4; ++j) {
-				int next_x = x + a[j];
-				int next_y = y + b[j];
-
-				if (next_x < 0 || next_y < 0 || next_x >= n || next_y >= m)
-					continue;
-
-				if (step[next_x][next_y] == 0 &&
-				    map[next_x][next_y] != '*' &&
-				    map[next_x][next_y] != 'X') {
-					step[next_x][next_y] = step[x][y] + 1;
-					que.push({next_x, next_y});
-				}
-			}
-		}
-
-	}
-}
+int n, m, water[MAX][MAX], dist[MAX][MAX];
+string map[MAX];
+pi start, dest;
+queue<pi> que;
 
 int main()
 {
 	ios_base::sync_with_stdio(0);
-	cin.tie(0);
 	cout.tie(0);
+	cin.tie(0);
 
 	cin >> n >> m;
+	memset(water, -1, sizeof(water));
 	for (int i=0; i<n; ++i) {
 		cin >> map[i];
 		for (int j=0; j<m; ++j) {
-			if (map[i][j] == 'S')
-				start = {i, j};
-			else if (map[i][j] == 'D')
+			if (map[i][j] == 'D') {
 				dest = {i, j};
-			else if (map[i][j] == '*')
-				water.push({i, j});
+			} else if (map[i][j] == 'S') {
+				start = {i, j};
+			} else if (map[i][j] == '*') {
+				que.push({i, j});
+				water[i][j] = 0;
+			}
 		}
 	}
-	
-	bfs();
 
-	ans = step[dest.first][dest.second];
+	while (!que.empty()) {
+		auto [x, y] = que.front();
+		que.pop();
 
-	if (ans)
-		cout << ans-1 << '\n';
-	else
+		for (int i=0; i<4; ++i) {
+			int nx = x + dx[i];
+			int ny = y + dy[i];
+
+			if (nx < 0 || nx >= n || ny < 0 || ny >= m || map[nx][ny] == 'X' || map[nx][ny] == 'D' || water[nx][ny] != -1)
+				continue;
+
+			water[nx][ny] = water[x][y] + 1;
+			que.push({nx, ny});
+		}
+	}
+
+	memset(dist, -1, sizeof(dist));
+	que.push({start.first, start.second});
+	dist[start.first][start.second] = 0;
+
+	while (!que.empty()) {
+		auto [x, y] = que.front();
+		que.pop();
+
+		for (int i=0; i<4; ++i) {
+			int nx = x + dx[i];
+			int ny = y + dy[i];
+
+			if (nx < 0 || nx >= n || ny < 0 || ny >= m || dist[nx][ny] != -1 || map[nx][ny] == 'X')
+				continue;
+
+			if (water[nx][ny] != -1 && water[nx][ny] <= dist[x][y] + 1)
+				continue;
+
+			dist[nx][ny] = dist[x][y] + 1;
+			que.push({nx, ny});
+		}
+	}
+
+	if (dist[dest.first][dest.second] == -1)
 		cout << "KAKTUS\n";
+	else
+		cout << dist[dest.first][dest.second] << '\n';
 
 	return 0;
 }
