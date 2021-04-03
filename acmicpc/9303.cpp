@@ -31,7 +31,6 @@ int main()
 		for (int i=0; i<m; ++i) {
 			cin >> x >> y >> z;
 			graph[x].push_back({z, y});
-			graph[y].push_back({z, x});
 		}
 
 		priority_queue<pdi> que;
