@@ -1,6 +1,6 @@
 #include <iostream>
-#include <climits>
 using namespace std;
+const int INF = 1e18+7;
 #define MAX 10001
 
 int n, k;
@@ -8,7 +8,7 @@ int drink[MAX];
 
 bool check(int t)
 {
-	int ret = 0;
+	long long ret = 0;
 	for (int i=0; i<n; ++i)
 		ret += drink[i]/t;
 
@@ -21,9 +21,9 @@ int main()
 	for (int i=0; i<n; ++i)
 		cin >> drink[i];
 
-	int l = 0, r = INT_MAX;
+	long long l = 0, r = INF;
 	while (l <= r) {
-		int mid = (l+r)/2;
+		long long mid = (l+r)/2;
 		if (check(mid))
 			l = mid+1;
 		else
