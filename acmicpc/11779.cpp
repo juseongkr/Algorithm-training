@@ -9,7 +9,7 @@ const int INF = 1e9+7;
 
 vector<pii> graph[MAX];
 int n, m, a, b, c, s, e;
-int dist[MAX], p[MAX];
+int dist[MAX], p[MAX], visit[MAX];
 
 int main()
 {
@@ -33,6 +33,10 @@ int main()
 		int cost = que.top().first;
 		int cur = que.top().second;
 		que.pop();
+
+		if (visit[cur])
+			continue;
+		visit[cur] = 1;
 
 		for (int i=0; i<graph[cur].size(); ++i) {
 			int next_cost = graph[cur][i].first;
